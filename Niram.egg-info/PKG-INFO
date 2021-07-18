@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: Niram
+Version: 1.0.4
+Summary: Simple python module to colour text
+Home-page: https://github.com/aswanthabam/Niram
+Author: Aswanth Vc
+Author-email: no-mail@mail.no
+License: UNKNOWN
+Description: ### Python Niram
+        
+        This is a simple module to get coloured text in linux, max , and also in android termux (not supported in windows CMD)
+        
+        usage:
+        ```python
+        from Niram import Colours
+        Colours().colour(colour_code,your_text,second=your_next_colour_code)
+        ```
+        This will return the formated text
+        here colour_code is a number of the colour get it by executing
+        ```console
+        python3 -m Niram -c
+        ```
+        This will list out all colours and responsible number
+        Second argument is your text and third argument "second" is the background colour or any other colour you need 
+Keywords: colours,change coloure,terminal colour,python colours,pip colours,change colour in terminal,vhange text colour in python
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
