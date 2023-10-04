@@ -1,4 +1,4 @@
-import sys, getopt,platform, os
+import sys, getopt,platform
 
 class Colours:
     normal = u"\u001b[0m"
@@ -65,48 +65,6 @@ class Colours:
         return res
     def printFormatted(self,text,colours,seperator=" ",end="\n"):
         sys.stdout.write(self.format(text,colours,seperator,end))
-    def __print_help__(self):
-        terminal_width = os.get_terminal_size().columns
-        text = " #     #  ###  ######      #     #     # "
-        left_padding = (terminal_width - len(text)) // 2 
-        p = '-' * left_padding
-        self.print('-'*(((terminal_width - len(text)) // 2 )*2+len(text)),23)
-        self.print('-'*(((terminal_width - len(text)) // 2 )*2+len(text)),23)
-        self.print([p,"                                         ",p],[23,187,23],seperator="")
-        self.print([p," #     #  ###  ######      #     #     # ",p],[23,187,23],seperator="")
-        self.print([p," ##    #   #   #     #    # #    ##   ## ",p],[23,115,23],seperator="")
-        self.print([p," # #   #   #   #     #   #   #   # # # # ",p],[23,67,23],seperator="")
-        self.print([p," #  #  #   #   ######   #     #  #  #  # ",p],[23,56,23],seperator="")
-        self.print([p," #   # #   #   #   #    #######  #     # ",p],[23,19,23],seperator="")
-        self.print([p," #    ##   #   #    #   #     #  #     # ",p],[23,218,23],seperator="")
-        self.print([p," #     #  ###  #     #  #     #  #     # ",p],[23,25,23],seperator="")
-        self.print([p,"                                         ",p],[23,187,23],seperator="")
-
-        txt1 = " Developed By "
-        txt1 += '-' * ((left_padding - len(txt1)) //2)
-        pad1 = terminal_width - len(txt1) - 1
-        txt1 = '-' * pad1 + txt1
-        txt2 = " Aswanth V C "
-        txt2 += '-' * ((left_padding - len(txt2)) //2)
-        pad2 = terminal_width - len(txt2) - 1
-        txt2 = '-' * pad2 + txt2
-        self.print(txt1,23)
-        self.print(txt2,23)
-        self.print('-'*(((terminal_width - len(text)) // 2 )*2+len(text)),23)
-        # Print help
-        print(f'''
-{self.colour(233,"Usage :-")}  {self.format(["$"," python3","-m","Niram","<options>"],[98,30,33,21,33],end="")}
-{self.colour(23,"-----------")}
-    {self.colour(226,"Options: ")}
-            {self.format(["-h",",","--help",": ","For help"],[113,23,113,23,233],end="",seperator="")}
-            {self.format(["-c",",","--colours",": ","for listing all colours and the responsible number used in your code"],[113,23,113,23,233],end="",seperator="")}
-{self.colour(233,"Example :-")}
-{self.colour(23,"-----------")}
-    {self.format(["form","Niram","import","Colours","# import Colours module"],[144,200,144,200,23],end="")}
-    {self.format(["obj.","print","(",'"Your_text"',",","110",")"," # Print coloured text"],[23,200,23,130,23,224,23,23],seperator="")}
-    
-{self.format(["----","For more example and usage checkout :","https://github.com/aswanthabam/Niram"],[286,23,54],end="")}
-                    ''')
 if __name__ == "__main__":
     obj = Colours()
     l = sys.argv[1:]
@@ -122,4 +80,16 @@ if __name__ == "__main__":
         if opt in ("-c","--colours",):
             obj.colours_help()
         if opt in ("-h","--help"):
-            obj.__print_help__()
+            print(f'''
+{obj.colour(233,"Usage :-")}  {obj.format(["$"," python3","-m","Niram","<options>"],[98,30,33,21,33],end="")}
+{obj.colour(32,"-----------")}
+    {obj.colour(226,"Options: ")}
+            {obj.format(["-h",",","--help",": ","For help"],[113,32,113,32,163],end="",seperator="")}
+            {obj.format(["-c",",","--colours",": ","for listing all colours and the responsible number used in your code"],[113,32,113,32,163],end="",seperator="")}
+{obj.colour(233,"Example :-")}
+{obj.colour(32,"-----------")}
+    {obj.format(["form","Niram","import","Colours","# import Colours module"],[144,200,144,200,32],end="")}
+    {obj.format(["obj.","print","(",'"Your_text"',",","110",")"," # Print coloured text"],[23,200,23,130,23,224,23,32],seperator="")}
+    
+{obj.format(["----","For more example and usage checkout :","https://github.com/aswanthabam/Niram"],[286,32,54],end="")}
+            ''')

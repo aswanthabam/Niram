@@ -1,4 +1,4 @@
-import sys, getopt,platform
+import sys, getopt,platform, os
 
 class Colours:
     normal = u"\u001b[0m"
@@ -43,37 +43,83 @@ class Colours:
         for key,value in kwargs.items():
             if key == "second":cc = self.colours[value].replace(" ","")
             else:continue
-        if colour > max([x for x,y in self.colours.items()]) or colour < 1:
+        if colour not in self.colours.keys():
             raise Exception(self.colours[176]+"Wrong Colour code\nPlease Execute: python3 -m Colours -colour"+self.normal)
-        
         return cc+self.colours[colour]+text+self.normal
+    def print(self,text,colour,seperator=" ",end="\n"):
+        if type(text) == list and type(colour) == list and len(text) == len(colour):
+            self.printFormatted(text,colour,seperator,end)
+        else:sys.stdout.write(self.colour(colour,text)+end)
 
+    def format(self,text,colours,seperator=" ",end="\n"):
+        if not type(text) == list:raise ValueError("First argument expected to be a list of string")
+        if not type(colours) == list:raise ValueError("Second argument colours expected to be a list of integers representing colour")
+        if len(text) != len(colours):raise ValueError("Expected colours for all texts")
+        res = ""
+        i = 0
+        for t in text:
+            if i != len(text) - 1:
+                res += self.colour(colours[i],t) + seperator
+            else:res += self.colour(colours[i],t) + end
+            i+= 1
+        return res
+    def printFormatted(self,text,colours,seperator=" ",end="\n"):
+        sys.stdout.write(self.format(text,colours,seperator,end))
+    def __print_help__(self):
+        terminal_width = os.get_terminal_size().columns
+        text = " #     #  ###  ######      #     #     # "
+        left_padding = (terminal_width - len(text)) // 2 
+        p = '-' * left_padding
+        self.print('-'*(((terminal_width - len(text)) // 2 )*2+len(text)),23)
+        self.print('-'*(((terminal_width - len(text)) // 2 )*2+len(text)),23)
+        self.print([p,"                                         ",p],[23,187,23],seperator="")
+        self.print([p," #     #  ###  ######      #     #     # ",p],[23,187,23],seperator="")
+        self.print([p," ##    #   #   #     #    # #    ##   ## ",p],[23,115,23],seperator="")
+        self.print([p," # #   #   #   #     #   #   #   # # # # ",p],[23,67,23],seperator="")
+        self.print([p," #  #  #   #   ######   #     #  #  #  # ",p],[23,56,23],seperator="")
+        self.print([p," #   # #   #   #   #    #######  #     # ",p],[23,19,23],seperator="")
+        self.print([p," #    ##   #   #    #   #     #  #     # ",p],[23,218,23],seperator="")
+        self.print([p," #     #  ###  #     #  #     #  #     # ",p],[23,25,23],seperator="")
+        self.print([p,"                                         ",p],[23,187,23],seperator="")
+
+        txt1 = " Developed By "
+        txt1 += '-' * ((left_padding - len(txt1)) //2)
+        pad1 = terminal_width - len(txt1) - 1
+        txt1 = '-' * pad1 + txt1
+        txt2 = " Aswanth V C "
+        txt2 += '-' * ((left_padding - len(txt2)) //2)
+        pad2 = terminal_width - len(txt2) - 1
+        txt2 = '-' * pad2 + txt2
+        self.print(txt1,23)
+        self.print(txt2,23)
+        self.print('-'*(((terminal_width - len(text)) // 2 )*2+len(text)),23)
+        # Print help
+        print(f'''
+{self.colour(233,"Usage :-")}  {self.format(["$"," python3","-m","Niram","<options>"],[98,30,33,21,33],end="")}
+{self.colour(23,"-----------")}
+    {self.colour(226,"Options: ")}
+            {self.format(["-h",",","--help",": ","For help"],[113,23,113,23,233],end="",seperator="")}
+            {self.format(["-c",",","--colours",": ","for listing all colours and the responsible number used in your code"],[113,23,113,23,233],end="",seperator="")}
+{self.colour(233,"Example :-")}
+{self.colour(23,"-----------")}
+    {self.format(["form","Niram","import","Colours","# import Colours module"],[144,200,144,200,23],end="")}
+    {self.format(["obj.","print","(",'"Your_text"',",","110",")"," # Print coloured text"],[23,200,23,130,23,224,23,23],seperator="")}
+    
+{self.format(["----","For more example and usage checkout :","https://github.com/aswanthabam/Niram"],[286,23,54],end="")}
+                    ''')
 if __name__ == "__main__":
+    obj = Colours()
     l = sys.argv[1:]
-    if len(l)<1:print(Colours().colour(17,"Enter -h or --help to get more info\nEnter -c or --colours to list colours and Responsible number"))
+    if len(l)<1:print(obj.colour(17,"Enter -h or --help to get more info\nEnter -c or --colours to list colours and Responsible number"))
     
     try:
         opts, args = getopt.getopt(l,"ch")
     except getopt.GetoptError:
-        print(Colours().colour(17,"Enter -h or --help to get more info\nEnter -c or --colours to list colours and Responsible number"))
+        print(obj.colour(17,"Enter -h or --help to get more info\nEnter -c or --colours to list colours and Responsible number"))
         sys.exit(2)
     for opt,arg in opts:
         
         if opt in ("-c","--colours",):
-            Colours().colours_help()
+            obj.colours_help()
         if opt in ("-h","--help"):
-            print(f'''
-{Colours().colour(233,"Usage(1):-")}  {Colours().colour(170,"python3 -m Colours <option>")}
------------------------------------------
-Options:     
-            -h,--help:-  for help\n
-            -c,--colours:- for listing all colours and the responsible number used in your code
-\nUsage(2):-\n
----------------
-first import ,
-    {Colours().colour(170,"From Niram import Colours")}
-change colour,
-    {Colours().colour(170,"Colours().colour(<colour code(will get in '-c')>,Your text,second=your second colour or background)")}
-    
-    This will return the formated text!.
-            ''')
+            obj.__print_help__()

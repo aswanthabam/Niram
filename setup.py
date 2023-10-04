@@ -37,9 +37,9 @@ setuptools.setup(
         'install': PreInstallCommand,
     },
     name="Niram", # Replace with your own username
-    version="1.0.4",
+    version="1.0.5",
     author="Aswanth Vc",
-    author_email="no-mail@mail.no",
+    author_email="aswanth.abam@gmail.com",
     description="Simple python module to colour text",
     keywords=["colours","change coloure","terminal colour","python colours","pip colours","change colour in terminal","vhange text colour in python"],
     long_description=long_description,
